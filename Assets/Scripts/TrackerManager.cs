@@ -1,7 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class TrackerManager : MonoBehaviour
 {
@@ -11,18 +13,20 @@ public class TrackerManager : MonoBehaviour
     
     [SerializeField]
     private bool isFirstFaceTracking = true;
-    public Button button;
+    public Button camChangeButton;
+    public Button debugEyeButton;
     public GameObject bodyTrackingButtons;
+    public GameObject faceTrackingButtons;
     
     private TextMeshProUGUI _btnText;
-    private string _currentMode = "Body"; 
+    public UnityEvent debugEyeTracking;
     
     private void Awake()
     {
         _arFaceManager = GetComponent<ARFaceManager>();
         _arHumanBodyManager = GetComponent<ARHumanBodyManager>();
         _bodyTracker3D = GetComponent<BodyTracker3D>();
-        _btnText = button.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        _btnText = camChangeButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
     }
 
     private void Start()
@@ -30,12 +34,10 @@ public class TrackerManager : MonoBehaviour
         if (isFirstFaceTracking)
         {
             TurnOnFaceTracker();
-            _currentMode = "Face";
         }
         else
         {
             TurnOnBodyTracker();
-            _currentMode = "Body";
         }
     }
     
@@ -73,6 +75,7 @@ public class TrackerManager : MonoBehaviour
         _bodyTracker3D.enabled = false;
         _btnText.text = "Body";
         bodyTrackingButtons.SetActive(false);
+        faceTrackingButtons.SetActive(true);
         FindAndDestroyTrackables();
     }
 
@@ -83,6 +86,12 @@ public class TrackerManager : MonoBehaviour
         _arFaceManager.enabled = false;
         _btnText.text = "Face";
         bodyTrackingButtons.SetActive(true);
+        faceTrackingButtons.SetActive(false);
         FindAndDestroyTrackables();
+    }
+
+    public void InvokeEvent()
+    {
+        debugEyeTracking.Invoke();
     }
 }
