@@ -12,6 +12,8 @@ public class TrackerManager : MonoBehaviour
     [SerializeField]
     private bool isFirstFaceTracking = true;
     public Button button;
+    public GameObject bodyTrackingButtons;
+    
     private TextMeshProUGUI _btnText;
     private string _currentMode = "Body"; 
     
@@ -70,6 +72,7 @@ public class TrackerManager : MonoBehaviour
         _arHumanBodyManager.enabled = false;
         _bodyTracker3D.enabled = false;
         _btnText.text = "Body";
+        bodyTrackingButtons.SetActive(false);
         FindAndDestroyTrackables();
     }
 
@@ -79,6 +82,7 @@ public class TrackerManager : MonoBehaviour
         _bodyTracker3D.enabled = true;
         _arFaceManager.enabled = false;
         _btnText.text = "Face";
+        bodyTrackingButtons.SetActive(true);
         FindAndDestroyTrackables();
     }
 }
