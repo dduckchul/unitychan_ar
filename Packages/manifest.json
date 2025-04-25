@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.unity.animation.rigging": "1.2.1",
     "com.unity.ide.rider": "3.0.34",
     "com.unity.render-pipelines.universal": "14.0.12",
     "com.unity.sentis": "2.1.2",
