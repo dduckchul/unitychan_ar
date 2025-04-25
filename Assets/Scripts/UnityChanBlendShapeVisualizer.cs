@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
-using UnityEngine.Events;
+
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARKit;
 using UnityEngine.XR.ARSubsystems;
@@ -36,14 +35,17 @@ public class UnityChanBlendShapeVisualizer : MonoBehaviour
     ARKitFaceSubsystem m_ARKitFaceSubsystem;
     Dictionary<ARKitBlendShapeLocation, int> m_FaceArkitBlendShapeIndexMap;
     ARFace m_Face;
-
     private GameObject m_HeadInstance;
-    private bool IsEyeTrackable;
     
     [Header("For Eye Tracking")]
+    public bool isEyeTrackable;
+    private bool _isEyeTrackable;
+    
     public Transform m_LeftEye;
     public Transform m_RightEye;
 
+    public Vector3 m_EyeModelDiff;
+    
     private Vector3 m_LeftEyeBeforePos;
     private Vector3 m_RightEyeBeforePos;
     
@@ -170,8 +172,6 @@ public class UnityChanBlendShapeVisualizer : MonoBehaviour
             && (ARSession.state > ARSessionState.Ready)
             && !DebugEyeTracking;
         
-        Debug.Log(DebugEyeTracking + gameObject.name);
-
         SetVisible(visible);
     }
 
@@ -183,13 +183,13 @@ public class UnityChanBlendShapeVisualizer : MonoBehaviour
             m_ARKitFaceSubsystem = (ARKitFaceSubsystem)faceManager.subsystem;
         }
 
-        if (faceManager.subsystem != null && faceManager.descriptor.supportsEyeTracking)
+        if (faceManager.subsystem != null && faceManager.descriptor.supportsEyeTracking && isEyeTrackable)
         {
-            IsEyeTrackable = true;
+            _isEyeTrackable = true;
         }
         else
         {
-            IsEyeTrackable = false;
+            _isEyeTrackable = false;
         }
         
         UpdateVisibility();
@@ -222,7 +222,7 @@ public class UnityChanBlendShapeVisualizer : MonoBehaviour
             return;
         }
         
-        if (IsEyeTrackable)
+        if (_isEyeTrackable)
         {
             UpdateEyePosition();
         }
@@ -256,14 +256,22 @@ public class UnityChanBlendShapeVisualizer : MonoBehaviour
         {
             if (m_LeftEyeBeforePos != m_LeftEye.position)
             {
-                Vector3 leftEyeDiff = (m_Face.leftEye.position - m_LeftEyeBeforePos) / 5f;
-                m_LeftEye.localPosition += leftEyeDiff;
+                // 1. 그냥 포지션 적용해보기
+                m_LeftEye.position = m_Face.leftEye.position + m_EyeModelDiff;
+                
+                // 2. 모델 상대 포지션으로 적용해보기
+                // Vector3 leftEyeDiff = (m_Face.leftEye.position - m_LeftEyeBeforePos) / 5f;
+                // m_LeftEye.position += leftEyeDiff;
             }
 
             if (m_RightEyeBeforePos != m_RightEye.position)
             {
-                Vector3 rightEyeDiff = (m_Face.rightEye.position - m_RightEyeBeforePos) / 5f;
-                m_RightEye.localPosition += rightEyeDiff;
+                // 1. 그냥 포지션 적용해보기
+                m_RightEye.position = m_Face.rightEye.position + m_EyeModelDiff;
+                
+                // 2. 모델 상대 포지션으로 적용해보기
+                // Vector3 rightEyeDiff = (m_Face.rightEye.position - m_RightEyeBeforePos) / 5f;
+                // m_RightEye.position += rightEyeDiff;
             }
         }
             
