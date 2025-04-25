@@ -66,13 +66,21 @@ public class UnityChanBlendShapeVisualizer : MonoBehaviour
     void Start()
     {
         TrackerManager man = FindObjectOfType<TrackerManager>();
-        man.debugEyeTracking.AddListener(OnDebugEyeTracking);
+
+        if (man != null && man.debugEyeTracking != null)
+        {
+            man.debugEyeTracking.AddListener(OnDebugEyeTracking);            
+        }
     }
 
     private void OnDestroy()
     {
         TrackerManager man = FindObjectOfType<TrackerManager>();
-        man.debugEyeTracking.RemoveListener(OnDebugEyeTracking);
+
+        if (man != null && man.debugEyeTracking != null)
+        {
+            man.debugEyeTracking.RemoveListener(OnDebugEyeTracking);            
+        }
     }
 
     void CreateFeatureBlendMapping()

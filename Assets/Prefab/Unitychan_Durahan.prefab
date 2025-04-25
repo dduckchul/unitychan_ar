@@ -530,6 +530,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8041781500867026431}
+    - targetCorrespondingSourceObject: {fileID: 100264, guid: 7d482c82ffb74a7fbfc5c7b288095351,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2428658761418192843}
+    - targetCorrespondingSourceObject: {fileID: 100264, guid: 7d482c82ffb74a7fbfc5c7b288095351,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1832194961381740272}
     - targetCorrespondingSourceObject: {fileID: 100136, guid: 7d482c82ffb74a7fbfc5c7b288095351,
         type: 3}
       insertIndex: -1
@@ -1300,6 +1308,42 @@ MonoBehaviour:
   - {fileID: 6091925468864259226}
   - {fileID: 7171544644238906993}
   - {fileID: 5702650945680994192}
+--- !u!114 &2428658761418192843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176452385497801467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2791822376
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1832194961381740272}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1832194961381740272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176452385497801467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!4 &9176452385498103299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400208, guid: 7d482c82ffb74a7fbfc5c7b288095351,
