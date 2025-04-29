@@ -284,7 +284,7 @@ public class UnityChanBlendShapeVisualizer : MonoBehaviour
         }
             
         m_LeftEyeBeforePos = m_Face.leftEye.position;
-        m_RightEyeBeforePos = m_Face.rightEye.position;        
+        m_RightEyeBeforePos = m_Face.rightEye.position;
     }
 
     private void UpdateBlendShapes()

@@ -1,23 +1,37 @@
-using System;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
+using UnityEngine.XR.ARFoundation;
 using UnityEngine;
-using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 public class ObjectPool : MonoBehaviour
 {
-    [Header("Prefab to Pool")] 
+    [Header("Prefab to Pool")]  
 
     [Range(5,50)]
     public int poolSize;
     public GameObject[] ballsPrefab;
+    public GameObject debugHead;
     
-    private Dictionary<GameObject, ObjectPool<GameObject>> _poolsDict;
+    private Transform _shootOrigin;
+    private Vector3 _targetPosition;
+    private ARFaceManager _faceManager;
+    private ARFace _arFace;
+
+    [SerializeField] private float angle = 30f;
+    [SerializeField] private Vector3 shootPos;
+    [SerializeField] private Quaternion shootRot;
+    
+    private Dictionary<GameObject, UnityEngine.Pool.ObjectPool<GameObject>> _poolsDict;
     
     void Start()
     {
+        _shootOrigin = FindObjectOfType<XROrigin>().transform;
+        _faceManager = _shootOrigin.GetComponent<ARFaceManager>();
+        shootPos = _shootOrigin.position + new Vector3(0, 1.5f, -2f);
+        
         // 프리팹으로 풀 초기화
-        _poolsDict = new Dictionary<GameObject, ObjectPool<GameObject>>();
+        _poolsDict = new Dictionary<GameObject, UnityEngine.Pool.ObjectPool<GameObject>>();
         foreach (GameObject prefab in ballsPrefab)
         {
             GameObject poolParent = new GameObject(prefab.name);
@@ -26,16 +40,20 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    private ObjectPool<GameObject> MakeObjectPool(GameObject go, Transform parent)
+    private UnityEngine.Pool.ObjectPool<GameObject> MakeObjectPool(GameObject go, Transform parent)
     {
-        return new ObjectPool<GameObject>(
+        return new UnityEngine.Pool.ObjectPool<GameObject>(
             () =>  Instantiate(go, parent),
             obj =>
             {
-                obj.transform.position = Vector3.zero;
+                obj.transform.position = shootPos;
                 obj.SetActive(true);
             },
-            obj => obj.SetActive(false),
+            obj =>
+            {
+                obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                obj.SetActive(false);
+            },
             obj => Destroy(go),
             true,
             defaultCapacity : poolSize,
@@ -84,7 +102,7 @@ public class ObjectPool : MonoBehaviour
     }
 
     // 파라미터 없으면 랜덤
-    public void GetBallFromPool()
+    public void ShootBallFromPool()
     {
         int rand = Random.Range(0, 4);
         GameObject? ball = SpawnBallFromPool(ballsPrefab[rand]);
@@ -93,10 +111,12 @@ public class ObjectPool : MonoBehaviour
         {
             return;
         }
+        
+        AddForceToTarget(ball);
     }
     
     // 프리팹 번호로 Instnatiated
-    public void GetBallFromPool(int specificBall)
+    public void ShootBallFromPool(int specificBall)
     {
         int rand = Random.Range(0, 4);
         GameObject? ball = SpawnBallFromPool(ballsPrefab[rand]);
@@ -105,5 +125,64 @@ public class ObjectPool : MonoBehaviour
         {
             return;
         }
-    }    
+
+        AddForceToTarget(ball);
+    }
+    
+    void AddForceToTarget(GameObject ball)
+    {
+        FindTarget();
+        
+        Rigidbody rigid = ball.GetComponent<Rigidbody>();
+
+        
+        // 목표 위치로의 방향 계산        
+        Vector3 direction = _targetPosition - ball.transform.position;
+        float h = direction.y;
+        direction.y = 0;
+        
+        // 목표 위치까지의 거리 계산
+        float distance = direction.magnitude;
+        float radianAngle = angle * Mathf.Deg2Rad;
+
+        float gravity = Physics.gravity.y;
+        float velocity = Mathf.Sqrt(distance * Mathf.Abs(gravity) / (distance * Mathf.Tan(radianAngle) + h));
+
+        Debug.Log("D : " + distance + " Rad :" + radianAngle + " G : " + gravity + " V : " + velocity);
+        
+        Vector3 velocityVec = direction.normalized;
+        velocityVec *= velocity * Mathf.Cos(radianAngle);
+        velocityVec.y = velocity * Mathf.Sin(radianAngle);
+
+        rigid.velocity = velocityVec;
+    }
+
+    private void FindTarget()
+    {
+        // 디버그용
+        if (debugHead != null 
+            && debugHead.gameObject != null 
+            && debugHead.gameObject.activeSelf)
+        {
+            _targetPosition = debugHead.transform.position;
+            return;
+        }
+
+        // 이미 찾아놓은 얼굴이 있다면 리턴
+        if (_arFace != null 
+            && _arFace.gameObject != null 
+            && _arFace.gameObject.activeSelf)
+        {
+            return;
+        }
+        
+        foreach (ARFace face in _faceManager.trackables)
+        {
+            if (face != null && face.isActiveAndEnabled)
+            {
+                _arFace = face;
+                _targetPosition = face.transform.position;
+            }
+        }
+    }
 }

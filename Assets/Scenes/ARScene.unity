@@ -1235,6 +1235,10 @@ MonoBehaviour:
   - {fileID: 6903649621127498104, guid: 4019c248af0054ca1a8fe1468c02d417, type: 3}
   - {fileID: 1198126995384157447, guid: 09d741e4f308147a38a4225fb0ff0b68, type: 3}
   - {fileID: 8165564273818356718, guid: d8e05dc97fe1d4167986a0b446701975, type: 3}
+  debugHead: {fileID: 1280599073}
+  angle: 45
+  shootPos: {x: 0, y: 0, z: 0}
+  shootRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &642870755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,7 +1330,7 @@ Transform:
   m_GameObject: {fileID: 703185652}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.6000001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1844,6 +1848,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148305344}
   m_CullTransparentMesh: 1
+--- !u!1 &1280599073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9176452385497801467, guid: a25167a7613214ebc8502a1ccd02d312,
+    type: 3}
+  m_PrefabInstance: {fileID: 1425610631}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1304200446
 GameObject:
   m_ObjectHideFlags: 0
@@ -2145,7 +2155,7 @@ Transform:
   m_GameObject: {fileID: 1391299916}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.6000001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2332,7 +2342,7 @@ PrefabInstance:
     - target: {fileID: 9176452385497801467, guid: a25167a7613214ebc8502a1ccd02d312,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9176452385498103515, guid: a25167a7613214ebc8502a1ccd02d312,
         type: 3}
@@ -2347,7 +2357,7 @@ PrefabInstance:
     - target: {fileID: 9176452385498103515, guid: a25167a7613214ebc8502a1ccd02d312,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.42
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9176452385498103515, guid: a25167a7613214ebc8502a1ccd02d312,
         type: 3}
@@ -2660,7 +2670,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 424460826}
         m_TargetAssemblyTypeName: ObjectPool, Assembly-CSharp
-        m_MethodName: GetBallFromPool
+        m_MethodName: ShootBallFromPool
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
