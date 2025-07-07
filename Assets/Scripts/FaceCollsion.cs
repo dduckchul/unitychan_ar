@@ -28,7 +28,7 @@ public class FaceCollision : MonoBehaviour
         }
         
         Vector3 lastImpactDirection = (contactPoint - transform.position).normalized;
-        Debug.Log(lastVelocity+ ", " + lastImpactDirection);
+        Debug.Log("v : " + lastVelocity+ ", d : " + lastImpactDirection);
         
         StartCoroutine(TurnOnTracking());        
     }
@@ -36,7 +36,7 @@ public class FaceCollision : MonoBehaviour
     // 콜리전 일어났을 경우 다시 켜주고 속도 0으로
     private IEnumerator TurnOnTracking()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
         _arFaceManager.enabled = true;
