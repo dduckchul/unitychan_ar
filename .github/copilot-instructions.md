@@ -1,0 +1,10 @@
+- Follow Unity C# style and naming conventions.
+- Use PascalCase (classes/methods), camelCase (fields/variables).
+- Avoid magic numbers; use constants or enums.
+- Use [SerializeField] with private/protected fields, not public.
+- Only implement needed Unity lifecycle methods.
+- Check for nulls and handle exceptions.
+- Optimize code in Update and frequent methods.
+- Document Inspector fields with [Tooltip] or [Header].
+- Add or update tests for code changes.
+- Reviewer checks: style, performance, error handling, Unity API usage, documentation.
