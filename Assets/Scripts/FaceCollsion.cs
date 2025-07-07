@@ -6,6 +6,7 @@ public class FaceCollision : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private ARFaceManager _arFaceManager;
+    public int 이상한변수;
     
     private void Start()
     {
